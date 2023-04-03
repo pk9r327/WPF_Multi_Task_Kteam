@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="WPF_Multi_Task.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF_Multi_Task.Views" 
+             xmlns:viewmodels="clr-namespace:WPF_Multi_Task.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewmodels:MainViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Add data" Command="{Binding AddData_CMD}"></Button>
+            <TextBox Text="{Binding SettingData.TotalData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Content="Start all" Command="{Binding StartAll_CMD}"></Button>
+            <Button Content="Stop all" Command="{Binding StopAll_CMD}"></Button>
+            <Button Content="Delete all" Command="{Binding DeleteAll_CMD}"></Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <ListView ItemsSource="{Binding Profiles}" Margin="5"
+                      d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView.View>
+                    <GridView>
+                        <!--<GridViewColumn Header="STT" Width="40"
+                                        DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource IndexConverter}}" >                            
+                        </GridViewColumn>-->
+                        <GridViewColumn Header="STT" Width="30" DisplayMemberBinding="{Binding ProfileDetail.Index}"></GridViewColumn>
+                        <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding ProfileDetail.Name}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding BindingGroupName, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Status" Width="150" DisplayMemberBinding="{Binding ProfileDetail.Status}"></GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Stop"
+                                            Command="{Binding StopCommand}"
+                                            CommandParameter="{Binding}"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Start"
+                                            Command="{Binding StartCommand}"
+                                            CommandParameter="{Binding}"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete"
+                                            Command="{Binding DeleteCommand}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Pause"
+                                            Command="{Binding PauseCommand}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Resume"
+                                            Command="{Binding ResumeCommand}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>
